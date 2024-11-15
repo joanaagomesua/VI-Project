@@ -1,18 +1,54 @@
-import React from 'react';
-import '../styles/Navbar.css';
+import React, { useState } from 'react';
+import './Navbar.css';
+import { Link } from 'react-router-dom';
+import Logo from '../../assets/logo.png';
+import { FaBars, FaTimes, FaMoon, FaSun } from 'react-icons/fa';
 
-const Navbar = () => {
+const Navbar = ({ theme, toggleTheme }) => {
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+      setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <nav className="navbar">
-      <div className="navbar-logo">
-        <h1>MyApp</h1>
+      <div className="theme-toggle" onClick={toggleTheme}>
+        {theme === 'light' ? <FaMoon /> : <FaSun />}
       </div>
-      <ul className="navbar-links">
-        <li><a href="#home">Home</a></li>
-        <li><a href="#about">About</a></li>
-        <li><a href="#services">Services</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
+      <div className="navbar-menu" onClick={toggleSidebar}>
+        <FaBars alt="Menu" />
+      </div>
+
+      <div className="navbar-logo">
+        <Link to="/">
+          <img src={Logo} alt="Logo" />
+        </Link>
+      </div>
+      <div className="navbar-title">
+        <Link to="/">
+          <p>CineStats</p>
+        </Link>
+      </div>
+
+      {/* Sidebar */}
+      <div className={`sidebar ${isSidebarOpen ? 'open' : ''}`}>
+        <div className="close-btn">
+        <FaTimes size={20} onClick={toggleSidebar}></FaTimes>
+          
+        </div>
+        <ul>
+          <li>
+            <Link to="/" onClick={toggleSidebar}>General Stats</Link>
+          </li>
+          <li>
+            <Link to="/" onClick={toggleSidebar}>Map Stats</Link>
+          </li>
+          <li>
+            <Link to="/aboutus" onClick={toggleSidebar}>About Us</Link>
+          </li>
+        </ul>
+      </div>
     </nav>
   );
 };
