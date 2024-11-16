@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Navbar from './components/Navbar/Navbar';
 import AboutUs from './components/AboutUs/AboutUs';
-import GeneralStats from "./components/GeneralStats/GeneralStats"; // Import GeneralStats component
+import GeneralStats from "./components/GeneralStats/GeneralStats"; 
 import Papa from "papaparse";
 
 function App() {
@@ -33,7 +33,6 @@ function App() {
     });
   };
 
-  // Use useEffect to load data once when the component mounts
   useEffect(() => {
     loadCSVData("/VI_Data/INE 1950-2023 Espetadores(anual).csv", setSpectatorsData);
     loadCSVData("/VI_Data/INE 1950-2023 Recintos de Cinema(anual).csv", setVenuesData);
@@ -46,7 +45,7 @@ function App() {
       <Routes>
         <Route path="/aboutus" element={<AboutUs />} />
         <Route
-          path="/generalstats"
+          path="/"
           element={
             <GeneralStats
               spectatorsData={spectatorsData}
@@ -55,6 +54,7 @@ function App() {
             />
           }
         />
+        
       </Routes>
     </div>
   );
