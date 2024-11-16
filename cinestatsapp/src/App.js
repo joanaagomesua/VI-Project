@@ -11,6 +11,7 @@ function App() {
   const [spectatorsData, setSpectatorsData] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
   const [sessionsData, setSessionsData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
 
   const toggleTheme = () => {
     const newTheme = theme === 'light' ? 'dark' : 'light';
@@ -37,6 +38,7 @@ function App() {
     loadCSVData("/VI_Data/INE 1950-2023 Espetadores(anual).csv", setSpectatorsData);
     loadCSVData("/VI_Data/INE 1950-2023 Recintos de Cinema(anual).csv", setVenuesData);
     loadCSVData("/VI_Data/INE 1950-2023 Sessões de Cinema(anual).csv", setSessionsData);
+    loadCSVData("/VI_Data/INE 1950-2023 Receitas Cinema(anual).csv", setRevenueData);
   }, []);
 
   return (
@@ -51,6 +53,7 @@ function App() {
               spectatorsData={spectatorsData}
               venuesData={venuesData}
               sessionsData={sessionsData}
+              revenueData={revenueData}
             />
           }
         />
