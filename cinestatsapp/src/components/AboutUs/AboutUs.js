@@ -64,7 +64,9 @@ const AboutUs = () => {
                 <i className="fas fa-envelope"></i>
               </button>
             </div>
-            {showEmail.joana && <p className="email">joanaagomes@ua.pt</p>}
+            <p className={`email ${showEmail.joana ? 'show' : ''}`}>
+              joanaagomes@ua.pt
+            </p>
           </div>
 
           {/* Francisco */}
@@ -79,7 +81,9 @@ const AboutUs = () => {
                 <i className="fas fa-envelope"></i>
               </button>
             </div>
-            {showEmail.francisco && <p className="email">francisco@example.com</p>}
+            <p className={`email ${showEmail.francisco ? 'show' : ''}`}>
+              francisco@example.com
+            </p>
           </div>
         </div>
         </div>
@@ -88,7 +92,7 @@ const AboutUs = () => {
       <div id="discipline" className="about-section">
         <h2>Information Visualization</h2>
         <p>
-          This project is part of the Information Visualization Curricular Unit (code: 44156) at the University of Aveiro. The CU
+          This project is part of the Information Visualization Curricular Unit (code: 44156) at the University of Aveiro. The IV course
           explores techniques for creating meaningful and interactive data visualizations.
         </p>
       </div>

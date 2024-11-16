@@ -1,0 +1,162 @@
+:root {
+  --background-color: #f5f5f5;
+  --text-color: #000;
+  --sidebar-bg-color: #111;
+  --sidebar-text-color: #fff;
+  --hover-color: #575757;
+  --image-filter: none;
+  --background-section: white;
+}
+
+[data-theme="dark"] {
+  --background-color: #111;
+  --text-color: #f5f5f5;
+  --sidebar-bg-color: #333;
+  --sidebar-text-color: #ddd;
+  --hover-color: #777;
+  --image-filter: invert(100%) brightness(200%);
+  --background-section: black;
+}
+
+.bar-chart-container {
+  font-family: 'Poppins', sans-serif;
+  padding: 1.5rem;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+.bar-chart-controls {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+}
+
+.bar-chart-controls label {
+  font-weight: 600;
+  color: var(--text-color);
+  transition: color 0.3s ease-in-out;
+}
+
+.bar-chart-controls label:hover {
+  color: var(--hover-color);
+}
+
+.bar-chart-controls select {
+  padding: 0.5rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--hover-color);
+  background-color: #fff;
+  color: var(--text-color);
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.bar-chart-controls select:hover {
+  background-color: var(--hover-color);
+  color: white;
+}
+
+.bar-chart-controls input {
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  width: 80px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+}
+
+.bar-chart-controls option {
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  width: 80px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+}
+
+.bar-chart {
+  width: 100%;
+  height: 400px;
+}
+
+.bar-chart .axis {
+  font-size: 0.9rem;
+  font-weight: 400;
+  color: var(--text-color);
+}
+
+.bar-chart .axis path,
+.bar-chart .axis line {
+  fill: none;
+  shape-rendering: crispEdges;
+  stroke: #ddd;
+}
+
+.bar-chart .bar {
+  transition: fill 0.3s ease;
+}
+
+.bar-chart .bar:hover {
+  fill: #45a049;
+}
+
+.bar-chart .grid line {
+  stroke: #ddd;
+  stroke-dasharray: 3;
+}
+
+.bar-chart .grid path {
+  stroke: none;
+}
+
+.bar-chart .title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: var(--text-color);
+}
+
+.bar-chart-legend {
+  display: flex;
+  gap: 1.2rem;
+  margin-top: 1rem;
+  justify-content: center;
+}
+
+.bar-chart-legend .legend-item {
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: var(--text-color);
+}
+
+.bar-chart-legend .legend-item .color-box {
+  width: 20px;
+  height: 20px;
+  margin-right: 0.5rem;
+  background-color: #4caf50;
+}
+
+@media (max-width: 768px) {
+  .bar-chart-container {
+    padding: 1rem;
+  }
+
+  .bar-chart-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .bar-chart-controls select {
+    width: 100%;
+  }
+}
