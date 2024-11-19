@@ -3,7 +3,7 @@ import "./GeneralStats.css";
 import * as d3 from "d3";
 import BarChart from "../BarChart/BarChart";
 
-const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData}) => {
+const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessionsData , revenueData}) => {
   const [selectedMetrics, setSelectedMetrics] = useState({
     spectators: true,
     venues: true,

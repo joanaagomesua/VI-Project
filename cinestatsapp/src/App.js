@@ -59,6 +59,7 @@ function App() {
           element={
             <GeneralStats
               spectatorsData={spectatorsData}
+              spectatorsDataRegions={spectatorsDataRegions}
               venuesData={venuesData}
               sessionsData={sessionsData}
               revenueData={revenueData}
