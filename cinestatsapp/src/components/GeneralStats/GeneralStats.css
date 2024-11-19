@@ -23,8 +23,25 @@
     text-align: center;
     font-size: 3.5rem;
     font-weight: 600;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     color: var(--text-color);
+}
+
+.chart-toggle{
+    font-family: 'Poppins', sans-serif;
+    color: var(--text-color);
+    display: flex;
+    justify-content: left;
+    margin-left:18%;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.chart-toggle .toggle-btn {
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .general-stats {
@@ -40,7 +57,7 @@
 
 /* Individual chart containers */
 .general-stats-container,
-.genstats-bar-chart {
+.genstats-right-chart {
     flex: 1;
     padding: 2rem;
     background-color: whitesmoke;

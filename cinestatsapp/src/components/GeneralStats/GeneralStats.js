@@ -14,6 +14,8 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
     sessions: [],
   });
 
+  const [showMultiline, setShowMultiline] = useState(true);
+
   const handleYearChange = (newYearRange) => {
     setYearRange(newYearRange);
   };
@@ -38,6 +40,13 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
     }
   }, [filteredData, selectedMetrics]);
 
+  useEffect(() => {
+    if (showMultiline) {
+      drawChart();
+    }
+  }, [showMultiline]); 
+  
+
   const handleMetricChange = (metric) => {
     setSelectedMetrics((prev) => ({
       ...prev,
@@ -46,6 +55,11 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
   };
 
   const drawChart = () => {
+    if (!filteredData || (!selectedMetrics.spectators && !selectedMetrics.sessions)) {
+      d3.select("#chart").selectAll("*").remove(); // Clear the chart if no metrics selected
+      return;
+    }
+
     const { spectators, sessions } = filteredData;
     const data = [];
 
@@ -113,69 +127,93 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
         .style("fill", "none");
     });
   };
+  
 
   return (
     <div>
       <h1 className="title">General Stats</h1>
+      {/* Chart Toggle Button */}
+      <div className="chart-toggle">
+        <button
+          className={`toggle-btn ${showMultiline ? "active" : ""}`}
+          onClick={() => setShowMultiline(true)}
+        >
+          Multiline Chart
+        </button>
+        <button
+          className={`toggle-btn ${!showMultiline ? "active" : ""}`}
+          onClick={() => setShowMultiline(false)}
+        >
+          Bar Chart
+        </button>
+      </div>
       <div className="general-stats">
         <div className="general-stats-container">
-          {/* Year Range Filter */}
-          <div className="year-range">
-            <label htmlFor="start-year">Start Year:</label>
-            <input
-              id="start-year"
-              type="number"
-              min="1950"
-              max="2023"
-              value={yearRange[0]}
-              onChange={(e) => handleYearChange([+e.target.value, yearRange[1]])}
-            />
+          {showMultiline ? (
+            <>
+              {/* Year Range Filter */}
+              <div className="year-range">
+                <label htmlFor="start-year">Start Year:</label>
+                <input
+                  id="start-year"
+                  type="number"
+                  min="1950"
+                  max="2023"
+                  value={yearRange[0]}
+                  onChange={(e) => handleYearChange([+e.target.value, yearRange[1]])}
+                />
+                <label htmlFor="end-year">End Year:</label>
+                <input
+                  id="end-year"
+                  type="number"
+                  min="1950"
+                  max="2023"
+                  value={yearRange[1]}
+                  onChange={(e) => handleYearChange([yearRange[0], +e.target.value])}
+                />
+              </div>
 
-            <label htmlFor="end-year">End Year:</label>
-            <input
-              id="end-year"
-              type="number"
-              min="1950"
-              max="2023"
-              value={yearRange[1]}
-              onChange={(e) => handleYearChange([yearRange[0], +e.target.value])}
-            />
-          </div>
+              {/* Metric Selection Controls */}
+              <div className="metric-selection">
+                <label className="metric-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedMetrics.spectators}
+                    onChange={() => handleMetricChange("spectators")}
+                    className="metric-checkbox"
+                  />
+                  Spectators
+                </label>
+                <label className="metric-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedMetrics.sessions}
+                    onChange={() => handleMetricChange("sessions")}
+                    className="metric-checkbox"
+                  />
+                  Sessions
+                </label>
+              </div>
 
-          {/* Metric Selection Controls */}
-          <div className="metric-selection">
-            <label className="metric-label">
-              <input
-                type="checkbox"
-                checked={selectedMetrics.spectators}
-                onChange={() => handleMetricChange("spectators")}
-                className="metric-checkbox"
-              />
-              Spectators
-            </label>
-            <label className="metric-label">
-              <input
-                type="checkbox"
-                checked={selectedMetrics.sessions}
-                onChange={() => handleMetricChange("sessions")}
-                className="metric-checkbox"
-              />
-              Sessions
-            </label>
-          </div>
-
-          {/* Chart Area */}
-          <div id="chart" className="chart-container"></div>
+              {/* Chart Area */}
+              <div id="chart" className="chart-container"></div>
+            </>
+          ) : (
+            <div>
+              <BarChart spectatorsData={spectatorsData} sessionsData={sessionsData} />
+            </div>
+          )}
         </div>
 
-        <div className="genstats-bar-chart">
-          <BarChart spectatorsData={spectatorsData} sessionsData={sessionsData} />
+        <div className="genstats-right-chart">
 
         </div>
+
+
       </div>
     </div>
-    
   );
+
 };
 
 export default GeneralStats;
