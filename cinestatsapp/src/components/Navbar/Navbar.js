@@ -42,7 +42,7 @@ const Navbar = ({ theme, toggleTheme }) => {
             <Link to="/" onClick={toggleSidebar}>General Stats</Link>
           </li>
           <li>
-            <Link to="/" onClick={toggleSidebar}>Map Stats</Link>
+            <Link to="/mapstats" onClick={toggleSidebar}>Map Stats</Link>
           </li>
           <li>
             <Link to="/aboutus" onClick={toggleSidebar}>About Us</Link>

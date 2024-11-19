@@ -82,7 +82,7 @@ const AboutUs = () => {
               </button>
             </div>
             <p className={`email ${showEmail.francisco ? 'show' : ''}`}>
-              francisco@example.com
+              ftferreira@ua.pt
             </p>
           </div>
         </div>
