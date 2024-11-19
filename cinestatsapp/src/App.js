@@ -41,7 +41,7 @@ function App() {
 
   useEffect(() => {
     loadCSVData("/VI_Data/INE 1950-2023 Espetadores(anual).csv", setSpectatorsData);
-    loadCSVData("/VI_Data/INE 2000-2010 Espetadores Cinema(localização - NUTS II).csv", setSpectatorsDataRegions);
+    loadCSVData("/VI_Data/INE 2000-2023 Espetadores Cinema(localização - NUTS II).csv", setSpectatorsDataRegions);
     loadCSVData("/VI_Data/INE 1950-2023 Recintos de Cinema(anual).csv", setVenuesData);
     loadCSVData("/VI_Data/INE 1950-2023 Sessões de Cinema(anual).csv", setSessionsData);
     loadCSVData("/VI_Data/INE 1950-2023 Receitas Cinema(anual).csv", setRevenueData);
