@@ -1,0 +1,78 @@
+:root {
+  --background-color: #f5f5f5;
+  --text-color: #000;
+  --sidebar-bg-color: #111;
+  --sidebar-text-color: #fff;
+  --hover-color: #575757;
+  --image-filter: none;
+  --background-section: white;
+}
+
+[data-theme="dark"] {
+  --background-color: #111;
+  --text-color: #f5f5f5;
+  --sidebar-bg-color: #333;
+  --sidebar-text-color: #ddd;
+  --hover-color: #777;
+  --image-filter: invert(100%) brightness(200%);
+  --background-section: black;
+}
+
+.donut-chart-container {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  display: flex;
+  flex-direction: column;
+}
+
+.year-selector {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-bottom: 2rem;
+}
+
+.year-selector label {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+.year-selector input {
+  font-size: 1.2rem;
+  padding: 0.2rem;
+  width: 80px;
+  text-align: center;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+}
+
+.region-selector {
+  display: flex;
+  gap: 1.5rem; 
+  margin: 2rem;
+  align-items: center; 
+}
+
+.region-selector .label {
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.region-selector-checkbox {
+  accent-color: rgb(40, 40, 147);
+  width: 20px;
+  height: 20px;
+}
+
+.region-selector div {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.donut-chart{
+  width: 100%;
+  height: 300px;
+  margin-left: 20%;
+}
