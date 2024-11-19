@@ -15,7 +15,7 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
     const margin = { top: 20, right: 40, bottom: 50, left: 50 };
     const width = 900 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
-  
+
     // Choose the correct dataset based on the selected metric and filter by year range
     const data = (() => {
       if (selectedMetric === "spectators") {
@@ -29,13 +29,13 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
       }
       return [];
     })();
-  
+
     // Sort data by Year in ascending order
     const sortedData = data.sort((a, b) => a.Year - b.Year);
-  
+
     // Clear the previous chart
     d3.select("#bar-chart").selectAll("*").remove();
-  
+
     const svg = d3
       .select("#bar-chart")
       .append("svg")
@@ -43,14 +43,14 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
-  
+
     // Set up x-axis and y-axis scales
     const x = d3
       .scaleBand()
       .domain(sortedData.map((d) => d.Year)) // Use sortedData for ordered years
       .range([0, width])
       .padding(0.2);
-  
+
     const y = d3
       .scaleLinear()
       .domain([
@@ -65,7 +65,7 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
       ])
       .nice()
       .range([height, 0]);
-  
+
     // Draw x-axis
     svg
       .append("g")
@@ -75,10 +75,23 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
       .attr("transform", "rotate(-20)")
       .style("text-anchor", "end")
       .style("font-size", "12px");
-  
+
     // Draw y-axis
     svg.append("g").call(d3.axisLeft(y).ticks(5));
-  
+
+    // Create tooltip
+    const tooltip = d3
+      .select("#bar-chart")
+      .append("div")
+      .attr("class", "tooltip")
+      .style("position", "absolute")
+      .style("visibility", "hidden")
+      .style("background-color", "rgba(0, 0, 0, 0.7)")
+      .style("color", "white")
+      .style("padding", "5px")
+      .style("border-radius", "5px")
+      .style("font-size", "12px");
+
     // Draw bars
     svg
       .selectAll(".bar")
@@ -106,19 +119,33 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
           ? d["Number of Cinema Sessions"]
           : d["Cinema Revenue (Thousands of Euros)"]
       ))
-      .style("fill", "steelblue");
-  
-    // Add hover effect
-    svg
-      .selectAll(".bar")
+      .style("fill", "steelblue")
       .on("mouseover", function (event, d) {
+        // Show tooltip with the y-axis value
+        tooltip
+          .style("visibility", "visible")
+          .html(
+            `${selectedMetric.charAt(0).toUpperCase() + selectedMetric.slice(1)}: ${selectedMetric === "spectators"
+              ? d["Spectators (Thousands)"]
+              : selectedMetric === "venues"
+              ? d["Number of Cinema Venues"]
+              : selectedMetric === "sessions"
+              ? d["Number of Cinema Sessions"]
+              : d["Cinema Revenue (Thousands of Euros)"]}`
+          );
+        
         d3.select(this).style("fill", "#FF5733"); // Change color on hover
       })
-      .on("mouseout", function (event, d) {
+      .on("mousemove", function (event) {
+        tooltip
+          .style("top", `${event.pageY + 5}px`)
+          .style("left", `${event.pageX + 5}px`);
+      })
+      .on("mouseout", function () {
+        tooltip.style("visibility", "hidden"); // Hide tooltip on mouseout
         d3.select(this).style("fill", "steelblue"); // Revert back on mouseout
       });
   };
-  
 
   return (
     <div className="bar-chart-container" ref={chartRef}>
@@ -155,5 +182,5 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
     </div>
   );
 };
-  
+
 export default BarChart;

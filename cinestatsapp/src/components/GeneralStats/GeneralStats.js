@@ -78,15 +78,15 @@ const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData})
   };
 
   const drawChart = () => {
-    if (!filteredData || (!selectedMetrics.spectators && !selectedMetrics.sessions)) {
+    if (!filteredData || (!selectedMetrics.spectators && !selectedMetrics.sessions && !selectedMetrics.venues && !selectedMetrics.revenue)) {
       d3.select("#chart").selectAll("*").remove(); // Clear the chart if no metrics selected
       return;
     }
-
-    const { spectators, sessions } = filteredData;
-
+  
+    const { spectators, venues, sessions, revenue } = filteredData;
+  
     const data = [];
-
+  
     if (selectedMetrics.spectators) {
       data.push({
         name: "Spectators",
@@ -96,15 +96,17 @@ const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData})
         })),
       });
     }
+  
     if (selectedMetrics.venues) {
       data.push({
         name: "Venues",
         values: venues.map((d) => ({
           year: new Date(d.Year, 0, 1),
-          value: d["Number of Cinema Venues"], 
+          value: d["Number of Cinema Venues"],
         })),
       });
     }
+  
     if (selectedMetrics.sessions) {
       data.push({
         name: "Sessions",
@@ -114,6 +116,7 @@ const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData})
         })),
       });
     }
+  
     if (selectedMetrics.revenue) {
       data.push({
         name: "Revenue",
@@ -123,13 +126,13 @@ const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData})
         })),
       });
     }
-
+  
     const margin = { top: 20, right: 30, bottom: 50, left: 50 };
     const width = 900 - margin.left - margin.right;
     const height = 500 - margin.top - margin.bottom;
-
+  
     d3.select("#chart").selectAll("*").remove();
-
+  
     const svg = d3
       .select("#chart")
       .append("svg")
@@ -137,38 +140,45 @@ const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData})
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", `translate(${margin.left},${margin.top})`);
-
+  
     const x = d3.scaleTime()
       .domain([new Date(yearRange[0], 0, 1), new Date(yearRange[1], 0, 1)])
       .range([0, width]);
-
+  
     const y = d3.scaleLinear()
       .domain([0, d3.max(data.flatMap((d) => d.values.map((v) => v.value)))]).nice()
       .range([height, 0]);
-
+  
     const line = d3.line()
       .x((d) => x(d.year))
       .y((d) => y(d.value));
-
+  
     svg.append("g")
       .attr("transform", `translate(0,${height})`)
       .call(d3.axisBottom(x).ticks(d3.timeYear.every(5)).tickFormat(d3.timeFormat("%Y")))
       .selectAll("text")
       .style("text-anchor", "middle")
       .attr("transform", "rotate(-20)");
-
+  
     svg.append("g").call(d3.axisLeft(y));
-
+  
     data.forEach((series) => {
       svg.append("path")
         .data([series.values])
         .attr("class", "line")
         .attr("d", line)
-        .style("stroke", series.name === "Spectators" ? "blue" : "green")
+        .style("stroke", series.name === "Spectators"
+          ? "blue"
+          : series.name === "Venues"
+          ? "orange"
+          : series.name === "Sessions"
+          ? "green"
+          : "red")
         .style("stroke-width", 2)
         .style("fill", "none");
     });
   };
+  
   
 
   return (
@@ -235,14 +245,39 @@ const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData})
                   />
                   Sessions
                 </label>
+                <label className="metric-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedMetrics.venues}
+                    onChange={() => handleMetricChange("venues")}
+                    className="metric-checkbox"
+                  />
+                  Venues
+                </label>
+                <label className="metric-label">
+                  <input
+                    type="checkbox"
+                    checked={selectedMetrics.revenue}
+                    onChange={() => handleMetricChange("revenue")}
+                    className="metric-checkbox"
+                  />
+                  Revenue
+                </label>
               </div>
+
 
               {/* Chart Area */}
               <div id="chart" className="chart-container"></div>
             </>
           ) : (
             <div>
-              <BarChart spectatorsData={spectatorsData} sessionsData={sessionsData} />
+              <BarChart
+                spectatorsData={spectatorsData}
+                sessionsData={sessionsData}
+                venuesData={venuesData}
+                revenueData={revenueData}
+              />
+
             </div>
           )}
         </div>
