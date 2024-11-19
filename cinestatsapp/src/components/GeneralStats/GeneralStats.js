@@ -3,15 +3,19 @@ import "./GeneralStats.css";
 import * as d3 from "d3";
 import BarChart from "../BarChart/BarChart";
 
-const GeneralStats = ({ spectatorsData, sessionsData }) => {
+const GeneralStats = ({ spectatorsData, venuesData ,sessionsData , revenueData}) => {
   const [selectedMetrics, setSelectedMetrics] = useState({
     spectators: true,
+    venues: true,
     sessions: true,
+    revenue: true,
   });
   const [yearRange, setYearRange] = useState([1950, 2023]); // Default year range
   const [filteredData, setFilteredData] = useState({
     spectators: [],
+    venues: [],
     sessions: [],
+    revenue: [],
   });
 
   const [showMultiline, setShowMultiline] = useState(true);
@@ -21,21 +25,40 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
   };
 
   useEffect(() => {
-    const filteredSpectatorsData = spectatorsData.filter(
-      (data) => data.Year >= yearRange[0] && data.Year <= yearRange[1]
-    );
-    const filteredSessionsData = sessionsData.filter(
-      (data) => data.Year >= yearRange[0] && data.Year <= yearRange[1]
-    );
 
+    console.log("Venue Data:", venuesData);
+
+    const filteredSpectatorsData = Array.isArray(spectatorsData)
+      ? spectatorsData.filter((data) => data.Year >= yearRange[0] && data.Year <= yearRange[1])
+      : [];
+    
+    const filteredVenuesData = Array.isArray(venuesData)
+      ? venuesData.filter((data) => data.Year >= yearRange[0] && data.Year <= yearRange[1])
+      : [];
+    
+    const filteredSessionsData = Array.isArray(sessionsData)
+      ? sessionsData.filter((data) => data.Year >= yearRange[0] && data.Year <= yearRange[1])
+      : [];
+    
+    const filteredRevenueData = Array.isArray(revenueData)
+      ? revenueData.filter((data) => data.Year >= yearRange[0] && data.Year <= yearRange[1])
+      : [];
+  
     setFilteredData({
       spectators: filteredSpectatorsData,
+      venues: filteredVenuesData,
       sessions: filteredSessionsData,
+      revenue: filteredRevenueData,
     });
-  }, [spectatorsData, sessionsData, yearRange]);
+  }, [spectatorsData, venuesData, sessionsData, revenueData, yearRange]);
 
   useEffect(() => {
-    if (spectatorsData.length > 0 || sessionsData.length > 0) {
+    if (
+      filteredData.spectators.length > 0 ||
+      filteredData.venues.length > 0 ||
+      filteredData.sessions.length > 0 ||
+      filteredData.revenue.length > 0
+    ) {
       drawChart();
     }
   }, [filteredData, selectedMetrics]);
@@ -61,6 +84,7 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
     }
 
     const { spectators, sessions } = filteredData;
+
     const data = [];
 
     if (selectedMetrics.spectators) {
@@ -72,12 +96,30 @@ const GeneralStats = ({ spectatorsData, sessionsData }) => {
         })),
       });
     }
+    if (selectedMetrics.venues) {
+      data.push({
+        name: "Venues",
+        values: venues.map((d) => ({
+          year: new Date(d.Year, 0, 1),
+          value: d["Number of Cinema Venues"], 
+        })),
+      });
+    }
     if (selectedMetrics.sessions) {
       data.push({
         name: "Sessions",
         values: sessions.map((d) => ({
           year: new Date(d.Year, 0, 1),
           value: d["Number of Cinema Sessions"],
+        })),
+      });
+    }
+    if (selectedMetrics.revenue) {
+      data.push({
+        name: "Revenue",
+        values: revenue.map((d) => ({
+          year: new Date(d.Year, 0, 1),
+          value: d["Cinema Revenue (Thousands of Euros)"],
         })),
       });
     }
