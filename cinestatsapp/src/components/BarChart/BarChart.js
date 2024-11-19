@@ -125,13 +125,13 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
         tooltip
           .style("visibility", "visible")
           .html(
-            `${selectedMetric.charAt(0).toUpperCase() + selectedMetric.slice(1)}: ${selectedMetric === "spectators"
+            `${selectedMetric === "spectators"
               ? d["Spectators (Thousands)"]
               : selectedMetric === "venues"
               ? d["Number of Cinema Venues"]
               : selectedMetric === "sessions"
               ? d["Number of Cinema Sessions"]
-              : d["Cinema Revenue (Thousands of Euros)"]}`
+              : d["Cinema Revenue (Thousands of Euros)"]* 1000 }`
           );
         
         d3.select(this).style("fill", "#FF5733"); // Change color on hover
@@ -142,8 +142,8 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
           .style("left", `${event.pageX + 5}px`);
       })
       .on("mouseout", function () {
-        tooltip.style("visibility", "hidden"); // Hide tooltip on mouseout
-        d3.select(this).style("fill", "steelblue"); // Revert back on mouseout
+        tooltip.style("visibility", "hidden"); 
+        d3.select(this).style("fill", "steelblue"); 
       });
   };
 

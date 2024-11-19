@@ -10,7 +10,7 @@ function App() {
 
   const [theme, setTheme] = useState('light');
   const [spectatorsData, setSpectatorsData] = useState([]);
-  const[spectatorsDataRegions, setSpectatorsDataRegions] = useState([]);
+  const [spectatorsDataRegions, setSpectatorsDataRegions] = useState([]);
   const [venuesData, setVenuesData] = useState([]);
   const [sessionsData, setSessionsData] = useState([]);
   const [revenueData, setRevenueData] = useState([]);

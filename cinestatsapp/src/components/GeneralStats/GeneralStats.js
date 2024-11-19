@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./GeneralStats.css";
 import * as d3 from "d3";
 import BarChart from "../BarChart/BarChart";
+import DonutChart from "../DonutChart/DonutChart";
 
 const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessionsData , revenueData}) => {
   const [selectedMetrics, setSelectedMetrics] = useState({
@@ -283,7 +284,9 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
         </div>
 
         <div className="genstats-right-chart">
-
+          <DonutChart
+            spectatorsData={spectatorsDataRegions} // Pass the regions' data to DonutChart
+          />
         </div>
 
 
