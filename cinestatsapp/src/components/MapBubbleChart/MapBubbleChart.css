@@ -1,16 +1,101 @@
+/* MapBubbleChart.css */
+
+.map-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px;
+}
+
+.map-container h2 {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 24px;
+}
+
+svg {
+  width: 100%;
+  max-width: 1800px;
+  height: auto;
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.dataset-selector,
+.slider-container {
+  margin: 10px;
+}
+
+.dataset-selector label,
+.slider-container label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+select,
+input[type="range"] {
+  padding: 5px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+input[type="range"] {
+  width: 200px;
+  margin-left: 10px;
+}
+
+label {
+  font-weight: bold;
+}
+
+.bubble {
+  cursor: pointer;
+}
+
 .region {
-    fill: #d9d9d9;
-    stroke: #aaa;
-  }
-  
-  .bubble {
-    fill: #4682b4;
-    opacity: 0.7;
-  }
-  
-  #tooltip {
-    font-size: 12px;
-    color: #333;
-    visibility: hidden;
-  }
-  
+  cursor: pointer;
+}
+
+.tooltip {
+  position: absolute;
+  text-align: center;
+  padding: 8px;
+  font-size: 14px;
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.legend-item {
+  display: flex;
+  align-items: center;
+  margin-right: 20px;
+}
+
+.legend-color {
+  margin-right: 10px;
+}
+
+.legend-label {
+  font-size: 14px;
+}
+
+.loading {
+  font-size: 18px;
+  text-align: center;
+  margin-top: 50px;
+}

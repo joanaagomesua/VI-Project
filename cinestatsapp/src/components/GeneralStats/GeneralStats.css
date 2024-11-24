@@ -126,6 +126,31 @@
     border: 1px solid var(--border-color);
 }
 
+.legend {
+    font-size: 14px;
+  }
+  
+  .legend rect {
+    stroke-width: 1;
+    stroke: #000;
+  }
+  
+  .legend text {
+    fill: #000;
+  }
+
+  .tooltip {
+    position: absolute;
+    text-align: center;
+    padding: 6px;
+    font-size: 12px;
+    background: lightsteelblue;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 10;
+  }
+
 
 
 @media (max-width: 768px) {

@@ -24,10 +24,10 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
   const handleYearChange = (newYearRange) => {
     setYearRange(newYearRange);
   };
+  const [normalizeData, setNormalizeData] = useState(true);
+
 
   useEffect(() => {
-
-    console.log("Venue Data:", venuesData);
 
     const filteredSpectatorsData = Array.isArray(spectatorsData)
       ? spectatorsData.filter((data) => data.Year >= yearRange[0] && data.Year <= yearRange[1])
@@ -62,7 +62,7 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
     ) {
       drawChart();
     }
-  }, [filteredData, selectedMetrics]);
+  }, [filteredData, selectedMetrics,normalizeData]);
 
   useEffect(() => {
     if (showMultiline) {
@@ -83,49 +83,101 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
       d3.select("#chart").selectAll("*").remove(); // Clear the chart if no metrics selected
       return;
     }
-  
+
+    // Define a color scale
+    const colorScale = d3.scaleOrdinal()
+      .domain(["Spectators", "Venues", "Sessions", "Revenue"])
+      .range(["blue", "orange", "green", "red"]);
+
     const { spectators, venues, sessions, revenue } = filteredData;
   
     const data = [];
+    const baseYear = yearRange[0]; // Use the start of the selected year range as the base year
   
     if (selectedMetrics.spectators) {
-      data.push({
-        name: "Spectators",
-        values: spectators.map((d) => ({
-          year: new Date(d.Year, 0, 1),
-          value: d["Spectators (Thousands)"],
-        })),
-      });
+      if (normalizeData) {
+        const baseValue = spectators.find((d) => d.Year === baseYear)?.["Spectators (Thousands)"] || 1;
+        data.push({
+          name: "Spectators",
+          values: spectators.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Spectators (Thousands)"] / baseValue) * 100,
+          })),
+        });
+      } else {
+        data.push({
+          name: "Spectators",
+          values: spectators.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: d["Spectators (Thousands)"],
+          })),
+        });
+      }
     }
   
     if (selectedMetrics.venues) {
-      data.push({
-        name: "Venues",
-        values: venues.map((d) => ({
-          year: new Date(d.Year, 0, 1),
-          value: d["Number of Cinema Venues"],
-        })),
-      });
+      if(normalizeData){
+        const baseValue = venues.find((d) => d.Year === baseYear)?.["Number of Cinema Venues"] || 1;
+        data.push({
+          name: "Venues",
+          values: venues.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Number of Cinema Venues"] / baseValue) * 100,
+          })),
+        });
+      }
+      else{
+        data.push({
+          name: "Venues",
+          values: venues.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Number of Cinema Venues"] ) 
+          })),
+        });
+      }
     }
   
     if (selectedMetrics.sessions) {
-      data.push({
-        name: "Sessions",
-        values: sessions.map((d) => ({
-          year: new Date(d.Year, 0, 1),
-          value: d["Number of Cinema Sessions"],
-        })),
-      });
+      if(normalizeData){
+        const baseValue = sessions.find((d) => d.Year === baseYear)?.["Number of Cinema Sessions"] || 1;
+        data.push({
+          name: "Sessions",
+          values: sessions.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Number of Cinema Sessions"] / baseValue) * 100,
+          })),
+        });
+      }else{
+        data.push({
+          name: "Sessions",
+          values: sessions.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Number of Cinema Sessions"] ) 
+          })),
+        });
+      }
     }
   
     if (selectedMetrics.revenue) {
-      data.push({
-        name: "Revenue",
-        values: revenue.map((d) => ({
-          year: new Date(d.Year, 0, 1),
-          value: d["Cinema Revenue (Thousands of Euros)"],
-        })),
-      });
+      if(normalizeData){
+        const baseValue = revenue.find((d) => d.Year === baseYear)?.["Cinema Revenue (Thousands of Euros)"] || 1;
+        data.push({
+          name: "Revenue",
+          values: revenue.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Cinema Revenue (Thousands of Euros)"] / baseValue) * 100,
+          })),
+        });
+      }
+      else{
+        data.push({
+          name: "Revenue",
+          values: revenue.map((d) => ({
+            year: new Date(d.Year, 0, 1),
+            value: (d["Cinema Revenue (Thousands of Euros)"] ) 
+          })),
+        });
+      }
     }
   
     const margin = { top: 20, right: 30, bottom: 50, left: 50 };
@@ -147,7 +199,10 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
       .range([0, width]);
   
     const y = d3.scaleLinear()
-      .domain([0, d3.max(data.flatMap((d) => d.values.map((v) => v.value)))]).nice()
+      .domain([
+        d3.min(data.flatMap((d) => d.values.map((v) => v.value))) - 10,
+        d3.max(data.flatMap((d) => d.values.map((v) => v.value))) + 10,
+      ]).nice()
       .range([height, 0]);
   
     const line = d3.line()
@@ -178,8 +233,30 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
         .style("stroke-width", 2)
         .style("fill", "none");
     });
-  };
-  
+
+    // Remove any existing legend
+    svg.selectAll(".legend").remove();
+
+    // Add legend
+    const legend = svg.selectAll(".legend")
+      .data(data)
+      .enter().append("g")
+      .attr("class", "legend")
+      .attr("transform", (d, i) => `translate(0,${i * 40})`);
+
+    legend.append("rect")
+      .attr("x", width - 18)
+      .attr("width", 18)
+      .attr("height", 18)
+      .style("fill", (d) => colorScale(d.name));
+
+    legend.append("text")
+      .attr("x", width - 24)
+      .attr("y", 9)
+      .attr("dy", ".35em")
+      .style("text-anchor", "end")
+      .text((d) => d.name);
+      };
   
 
   return (
@@ -202,6 +279,7 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
       </div>
       <div className="general-stats">
         <div className="general-stats-container">
+          <h1 className="title">Evolution over Time</h1>
           {showMultiline ? (
             <>
               {/* Year Range Filter */}
@@ -224,6 +302,17 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
                   value={yearRange[1]}
                   onChange={(e) => handleYearChange([yearRange[0], +e.target.value])}
                 />
+                <div className="normalization-toggle">
+                  <label>
+                    <input
+                      type="checkbox"
+                      checked={normalizeData}
+                      onChange={() => setNormalizeData(!normalizeData)}
+                      className="metric-checkbox"
+                    />
+                    Normalize Data (Base Year = {yearRange[0]})
+                  </label>
+                </div>
               </div>
 
               {/* Metric Selection Controls */}

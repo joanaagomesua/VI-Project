@@ -2,11 +2,27 @@ import React, { useEffect, useState } from "react";
 import "./MapStats.css";
 import MapBubbleChart from "../MapBubbleChart/MapBubbleChart";
 
-const MapStats = ({ mapData }) => {
+const MapStats = ({ mapCapacityData, mapVenueData }) => {
+
+  console.log("Map Capacity Data:", mapCapacityData);
+  console.log("Map Venue Data:", mapVenueData);
+  
+  const datasets = [
+    {
+      name: 'Lotação dos recintos',
+      data: [mapCapacityData],
+    },
+    {
+      name: 'Recintos de Cinema',
+      data: [mapVenueData],
+    },
+  ];
+
+  console.log("Datasets:", datasets);
     return (
       <div>
-        <h2>Map Statistics</h2>
-        <MapBubbleChart/>
+        <MapBubbleChart 
+            datasets = {datasets}/>
       </div>
     );
   };
