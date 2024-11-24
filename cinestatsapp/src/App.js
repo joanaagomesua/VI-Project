@@ -14,7 +14,8 @@ function App() {
   const [venuesData, setVenuesData] = useState([]);
   const [sessionsData, setSessionsData] = useState([]);
   const [revenueData, setRevenueData] = useState([]);
-  const [mapData, setMapData] = useState([]);
+  const [mapCapacityData, setMapCapacityData] = useState([]);
+  const [mapVenueData, setMapVenueData] = useState([]);
 
 
   const toggleTheme = () => {
@@ -45,7 +46,8 @@ function App() {
     loadCSVData("/VI_Data/INE 1950-2023 Recintos de Cinema(anual).csv", setVenuesData);
     loadCSVData("/VI_Data/INE 1950-2023 Sessões de Cinema(anual).csv", setSessionsData);
     loadCSVData("/VI_Data/INE 1950-2023 Receitas Cinema(anual).csv", setRevenueData);
-    loadCSVData("/VI_Data/INE 2000-2005 Lotação Recintos de Cinema(localização - NUTS II).csv", setMapData);
+    loadCSVData("/VI_Data/INE 2000-2005 Lotação Recintos de Cinema(localização - NUTS II).csv", setMapCapacityData);
+    loadCSVData("/VI_Data/INE 2000-2005 Recintos de Cinema(localização NUTS II).csv", setMapVenueData);
 
   }, []);
 
@@ -66,7 +68,7 @@ function App() {
             />
           }
         />
-        <Route path="/mapstats" element={<MapStats mapData={mapData} />} />
+        <Route path="/mapstats" element={<MapStats mapCapacityData={mapCapacityData} mapVenueData = {mapVenueData} />} />
         
       </Routes>
     </div>
