@@ -27,6 +27,14 @@
     color: var(--text-color);
 }
 
+.description {
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 2rem;
+    color: var(--text-color);
+}
+
 .chart-toggle{
     font-family: 'Poppins', sans-serif;
     color: var(--text-color);
@@ -60,7 +68,7 @@
 .genstats-right-chart {
     flex: 1;
     padding: 2rem;
-    background-color: whitesmoke;
+    background-color: var(--background-section);
     border-radius: 10px;
     box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1), 0px -4px 8px rgba(0, 0, 0, 0.1), 4px 0px 8px rgba(0, 0, 0, 0.1), -4px 0px 8px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -70,13 +78,21 @@
     
 }
 
+.general-stats-container h2{
+    font-size: 2rem;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+.genstats-right-chart h2{
+    font-size: 2rem;
+    text-align: center;
+}
+
+.genstats-right-chart {
+    display: inline;
+}
 .chart-container{
     width: fit-content;
-}
-.general-stats-header {
-    text-align: center;
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
 }
 
 .metric-selection {

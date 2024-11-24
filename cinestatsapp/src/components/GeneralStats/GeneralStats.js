@@ -282,7 +282,7 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
       </div>
       <div className="general-stats">
         <div className="general-stats-container">
-          <h1 className="title">Evolution over Time</h1>
+          <h2>Evolution over Time</h2>
           {showMultiline ? (
             <>
               {/* Year Range Filter */}
@@ -376,6 +376,7 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
         </div>
 
         <div className="genstats-right-chart">
+          <h2>Spectators by Region</h2>
           <DonutChart
             spectatorsData={spectatorsDataRegions} // Pass the regions' data to DonutChart
           />

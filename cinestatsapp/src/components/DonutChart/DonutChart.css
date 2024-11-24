@@ -20,7 +20,7 @@
 
 .donut-chart-container {
   font-family: 'Poppins', sans-serif;
-  background-color: var(--background-color);
+  background-color: var(--background-section);
   color: var(--text-color);
   display: flex;
   flex-direction: column;
@@ -31,6 +31,7 @@
   gap: 1rem;
   justify-content: center;
   margin-bottom: 2rem;
+  color: var(--text-color);
 }
 
 .year-selector label {
@@ -49,27 +50,36 @@
 
 .region-selector {
   display: flex;
-  gap: 1.5rem; 
-  margin: 2rem;
-  align-items: center; 
-}
-
-.region-selector .label {
-  font-size: 1.2rem;
-  cursor: pointer;
-}
-
-.region-selector-checkbox {
-  accent-color: rgb(40, 40, 147);
-  width: 20px;
-  height: 20px;
+  gap: 1.5rem;
+  margin-left: 2rem;
+  margin-right: 2rem;
+  align-items: center;
+  overflow-x: visible;
+  overflow-y: hidden; /* Prevent vertical scrolling */
+  white-space: nowrap; /* Ensure items stay on one line */
+  padding: 1rem;
+  background-color: var(--background-color);
+  border-radius: 10px;
+  color: var(--text-color);
 }
 
 .region-selector div {
-  display: flex;
+  display: inline-flex; /* Ensures all items remain inline for horizontal scrolling */
   align-items: center;
-  gap: 0.5rem;
+  gap: 1rem;
 }
+
+.region-selector-checkbox input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--hover-color);
+}
+
+.region-selector-checkbox label {
+  font-size: 1.1rem; /* Slightly larger font size for readability */
+  line-height: 1.2; 
+}
+
 
 .donut-chart{
   width: 100%;

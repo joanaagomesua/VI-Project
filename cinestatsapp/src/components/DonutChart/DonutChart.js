@@ -167,7 +167,9 @@ const DonutChart = ({ spectatorsData }) => {
           {spectatorsData
             .filter(
               (region) =>
-                region.Location !== "Portugal" && region.Location !== "Continente"  && region.Location
+                region.Location !== "Portugal" &&
+                region.Location !== "Continente" &&
+                region[selectedYear] > 0 // Exclude regions with 0 spectators for the selected year
             )
             .map((region) => (
               <div key={region.Location}>
@@ -179,15 +181,14 @@ const DonutChart = ({ spectatorsData }) => {
                   onChange={handleRegionChange}
                 />
                 <label htmlFor={region.Location}>
-                    {regionNameMap[region.Location] || region.Location}
+                  {regionNameMap[region.Location] || region.Location}
                 </label>
               </div>
             ))}
         </div>
       </div>
-
-      {/* Donut Chart Area */}
-      <div className="donut-chart" id="donut-chart" />
+        {/* Donut Chart Area */}
+        <div className="donut-chart" id="donut-chart" />
     </div>
   );
 };

@@ -32,20 +32,11 @@ const AboutUs = () => {
     <div className="about-us">
       {/* Navigation Index */}
       <nav className="about-nav">
-        <a href="#project">About CineStats</a>
         <a href="#team">Our Team</a>
         <a href="#discipline">The Project</a>
       </nav>
 
       {/* Sections */}
-      <div id="project" className="about-section">
-        <h2>About CineStats</h2>
-        <p>
-          CineStats is an Information Visualization Project that provides insights into the film industry in Portugal. The project leverages
-          data from INE (Instituto Nacional de Estatística) to analyze trends in sessions, spectators, and revenue over the years and in
-          different regions of Portugal.
-        </p>
-      </div>
 
       <div id="team" className="about-section">
         <h2>Our Team</h2>
@@ -92,8 +83,16 @@ const AboutUs = () => {
       <div id="discipline" className="about-section">
         <h2>Information Visualization</h2>
         <p>
-          This project is part of the Information Visualization Curricular Unit (code: 44156) at the University of Aveiro. The IV course
+          This project is part of the Information Visualization Curricular Unit (code: 44156) at the University of Aveiro, which
           explores techniques for creating meaningful and interactive data visualizations.
+        </p>
+        <p>
+          The goal of our project was to develop a
+          web application that allows users to explore and analyze data related to cinema in Portugal. The application should provide multiple
+          visualizations that help users to understand the data and extract insights.
+        </p>
+        <p>
+          The github repository of this project can be found <a href="https://github.com/joanaagomesua/VI-Project" target="_blank" rel="noopener noreferrer">here</a>.
         </p>
       </div>
     </div>

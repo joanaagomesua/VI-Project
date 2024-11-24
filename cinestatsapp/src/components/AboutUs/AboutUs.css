@@ -38,8 +38,10 @@ html, body {
     width: 100%; 
     display: flex;
     justify-content: center; 
-    gap: 1.5rem;
+    gap: 2.5rem;
     z-index: 1000;
+    font-size: 2rem;
+    
   }
   
   .about-nav a {
@@ -49,6 +51,11 @@ html, body {
     text-decoration: none;
     font-weight: bold;
     transition: color 0.3s ease;
+    background-color: var(--background-section);
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--text-color);
+
   }
   
   .about-nav a:hover {
@@ -58,7 +65,7 @@ html, body {
 
 /* Section to take up the whole screen */
 .about-section {
-    min-height: 60vh; /* Less than full height */
+    min-height: 60vh; 
     margin: 4rem;
     padding: 2rem;
     background: var(--background-section);
@@ -75,16 +82,22 @@ html, body {
 }
 
 .about-section h2 {
-    font-size: 2rem;
+    font-size: 3rem;
     margin-bottom: 1rem;
     text-align: center;
 }
 
 .about-section p {
-    font-size: 1.2rem;
+    font-size: 2rem;
     line-height: 1.5;
     text-align: center;
     padding: 1rem 5rem;
+}
+
+.about-section p a {
+    color: var(--text-color);
+    font-weight: bolder;
+    text-decoration: none;
 }
 
 /* Theme light and dark */
@@ -118,15 +131,15 @@ html, body {
   }
   
   .team-photos img {
-    width: 100px;
-    height: 100px;
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
     object-fit:contain;
     filter: var(--image-filter);
   }
 
   .team-member p {
-    font-size: 1.2rem;
+    font-size: 1.8rem;
     font-weight: bold;
     margin: 0.5rem 0;
   }
@@ -143,7 +156,7 @@ html, body {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     color: var(--text-color);
     transition: color 0.3s ease;
   }
