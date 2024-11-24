@@ -262,6 +262,9 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
   return (
     <div>
       <h1 className="title">General Stats</h1>
+      <p className="description">
+        Explore the trends in cinema sessions, spectators, revenue, and venues over the years in Portugal.
+      </p>
       {/* Chart Toggle Button */}
       <div className="chart-toggle">
         <button
