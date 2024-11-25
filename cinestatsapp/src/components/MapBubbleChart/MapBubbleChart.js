@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState,useMemo } from "react";
 import * as d3 from "d3";
+import { Tooltip } from 'react-tooltip';
+import 'react-tooltip/dist/react-tooltip.css'; // Import the CSS styles
 import "./MapBubbleChart.css";
 
 const MapBubbleChart = ({datasets}) => {
@@ -23,6 +25,24 @@ const MapBubbleChart = ({datasets}) => {
   const [geoData, setGeoData] = useState(null);
   const [selectedYear, setSelectedYear] = useState(2000); // Default year
   const [selectedDatasetIndex, setSelectedDatasetIndex] = useState(0); // Default to first dataset
+
+  const totalValueT = useMemo(() => {
+    if (!datasets || datasets.length === 0) return 0;
+  
+    const currentDataset = datasets[selectedDatasetIndex];
+    const mapStatsNested = currentDataset.data;
+    const mapStats = mapStatsNested.flat();
+  
+    // Find the row where Location is 'Portugal'
+    const portugalStats = mapStats.find((row) => row.Location === 'Portugal');
+  
+    if (portugalStats && portugalStats[selectedYear] != null) {
+      return portugalStats[selectedYear];
+    }
+  
+    return 0;
+  }, [datasets, selectedDatasetIndex, selectedYear]);
+  
 
 
   useEffect(() => {
@@ -174,6 +194,9 @@ const MapBubbleChart = ({datasets}) => {
           d3.mean(coordinates, (d) => d[1]),
         ];
 
+        // Calculate percentage of total
+        const percentage = totalValueT > 0 ? (totalValue / totalValueT) * 100 : 0;
+
         console.log(
           "Bubble data for region:",
           region,
@@ -184,6 +207,7 @@ const MapBubbleChart = ({datasets}) => {
         return {
           region,
           value: totalValue,
+          percentage,
           coordinates: avgCoordinates,
         };
       })
@@ -219,6 +243,9 @@ const MapBubbleChart = ({datasets}) => {
       .attr("fill", "rgba(255, 127, 14, 0.7)")
       .attr("stroke", "#d62728")
       .attr("stroke-width", 1)
+      .attr('data-tooltip-id', 'bubble-tooltip') // Assign a tooltip ID
+      .attr('data-tooltip-html', (d) => `<strong>${d.region}</strong><br/>Value: ${Math.round(d.value)}<br/>
+                                          Percentage: ${d.percentage.toFixed(2)}%`)
       .on("mouseover", function (event, d) {
         d3.select(this)
           .attr("fill", "rgba(245, 66, 66, 0.8)")
@@ -236,26 +263,26 @@ const MapBubbleChart = ({datasets}) => {
 
     // Add text to bubbles
     svg
-      .selectAll(".bubble-label")
-      .data(bubbleData)
-      .enter()
-      .append("text")
-      .attr("class", "bubble-label")
-      .attr("x", (d) => {
-        const proj = getProjectionForCoordinates(d.coordinates);
-        return proj(d.coordinates)[0];
-      })
-      .attr("y", (d) => {
-        const proj = getProjectionForCoordinates(d.coordinates);
-        return proj(d.coordinates)[1];
-      })
-      .attr("dy", ".35em") // Center text vertically
-      .attr("text-anchor", "middle") // Center text horizontally
-      .text((d) => Math.round(d.value)) // Round the value for display
-      .attr("fill", "#fff")
-      .style("font-size", "14px")
-      .style("font-weight", "bold")
-      .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.5)");
+    .selectAll(".bubble-label")
+    .data(bubbleData)
+    .enter()
+    .append("text")
+    .attr("class", "bubble-label")
+    .attr("x", (d) => {
+      const proj = getProjectionForCoordinates(d.coordinates);
+      return proj(d.coordinates)[0];
+    })
+    .attr("y", (d) => {
+      const proj = getProjectionForCoordinates(d.coordinates);
+      return proj(d.coordinates)[1];
+    })
+    .attr("dy", ".35em") // Center text vertically
+    .attr("text-anchor", "middle") // Center text horizontally
+    .text((d) => Math.round(d.value)) // Round the value for display
+    .attr("fill", "#fff")
+    .style("font-size", "14px")
+    .style("font-weight", "bold")
+    .style("text-shadow", "1px 1px 2px rgba(0, 0, 0, 0.5)");
 
     // Helper function to get the correct projection based on coordinates
     function getProjectionForCoordinates(coordinates) {
@@ -275,8 +302,16 @@ const MapBubbleChart = ({datasets}) => {
   }, [geoData, datasets, selectedDatasetIndex, selectedYear]);
 
   return (
-    <div className="map-container">
-              <h2>{datasets[selectedDatasetIndex].name}</h2>
+    <div className="page-container">
+      <div className="mapstats-container">
+                    {/* Title */}
+          <h1 className="map-title">{datasets[selectedDatasetIndex].name}</h1>
+
+              {/* Contextual Phrase */}
+              <p className="map-description">{datasets[selectedDatasetIndex].description}</p>
+              <p className="map-total">
+                Total for Portugal in {selectedYear}: <strong>{totalValueT}</strong>
+              </p>
               <div className="controls">
                 <div className="dataset-selector">
                   <label htmlFor="dataset-select">Select Dataset: </label>
@@ -298,14 +333,21 @@ const MapBubbleChart = ({datasets}) => {
                     id="year-slider"
                     type="range"
                     min="2000"
-                    max="2005"
+                    max="2023"
                     value={selectedYear}
                     onChange={(e) => setSelectedYear(+e.target.value)}
                   />
                 </div>
               </div>
               <svg ref={svgRef}></svg>
-
+              <Tooltip
+                id="bubble-tooltip"
+                place="top"
+                effect="solid"
+                backgroundColor="#333"
+                textColor="#fff"
+              />
+      </div>
     </div>
   );
 };
