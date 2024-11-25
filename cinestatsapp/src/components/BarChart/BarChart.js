@@ -152,7 +152,7 @@ const BarChart = ({ spectatorsData, venuesData, sessionsData, revenueData }) => 
       <div className="bar-chart-controls">
         <label htmlFor="metric-selector">Select Metric:</label>
         <select id="metric-selector" value={selectedMetric} onChange={(e) => setSelectedMetric(e.target.value)}>
-          <option value="spectators">Spectators</option>
+          <option value="spectators">Spectators(Thousands)</option>
           <option value="venues">Venues</option>
           <option value="sessions">Sessions</option>
           <option value="revenue">Revenue</option>

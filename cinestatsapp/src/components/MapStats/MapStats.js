@@ -2,19 +2,26 @@ import React, { useEffect, useState } from "react";
 import "./MapStats.css";
 import MapBubbleChart from "../MapBubbleChart/MapBubbleChart";
 
-const MapStats = ({ mapCapacityData, mapVenueData }) => {
+const MapStats = ({ mapCapacityData, mapVenueData, mapScreenData }) => {
 
   console.log("Map Capacity Data:", mapCapacityData);
   console.log("Map Venue Data:", mapVenueData);
   
   const datasets = [
     {
-      name: 'Lotação dos recintos',
+      name: 'Venues Capacity',
+      description: 'Total seating capacity of cinema venues across regions.',
       data: [mapCapacityData],
     },
     {
-      name: 'Recintos de Cinema',
+      name: 'Cinema Venues',
+      description: 'Number of cinema venues available in each region.',
       data: [mapVenueData],
+    },
+    {
+      name: 'Screens',
+      description: 'Total number of cinema screens available in each region.',
+      data: [mapScreenData],
     },
   ];
 

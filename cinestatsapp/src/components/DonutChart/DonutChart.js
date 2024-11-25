@@ -6,6 +6,8 @@ const DonutChart = ({ spectatorsData }) => {
   const [selectedYear, setSelectedYear] = useState(2005); // Default year
   const [selectedRegions, setSelectedRegions] = useState([]); // Array to store selected regions
   const [chartData, setChartData] = useState([]);
+  const [totalValue, setTotalValue] = useState(0);
+
 
   const regionNameMap = {
     "Região Autónoma dos Açores": "Açores",
@@ -47,6 +49,14 @@ const DonutChart = ({ spectatorsData }) => {
       }));
 
       setChartData(processedData);
+
+      // Calculate the total value for Portugal
+      const portugalData = spectatorsData.find(
+        (region) => region.Location === "Portugal"
+      );
+      const total = portugalData ? portugalData[selectedYear] : 0;
+      setTotalValue(total);
+
     }
   }, [spectatorsData, selectedYear, selectedRegions]);
 
@@ -102,10 +112,15 @@ const DonutChart = ({ spectatorsData }) => {
       .on("mouseover", function (event, d) {
         d3.select(this).attr("opacity", 0.7);
 
+        // Calculate percentage
+        const percentage =
+        totalValue > 0 ? ((d.data.value / totalValue) * 100).toFixed(2) : 0;
+
         // Display the tooltip
         tooltip
           .style("visibility", "visible")
-          .html(`<strong>${d.data.region}</strong><br/>${d.data.value} spectators`);
+          .html(`<strong>${d.data.region}</strong><br/>${d.data.value} spectators (${percentage}%)`
+        );
       })
       .on("mousemove", function (event) {
         // Position the tooltip near the mouse

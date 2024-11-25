@@ -13,22 +13,71 @@
   font-size: 24px;
 }
 
-svg {
-  width: 100%;
-  max-width: 1800px;
-  height: auto;
+.map-title {
+  font-size: 40px;
+  font-weight: bold;
+  text-align: center;
 }
 
+.map-description {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 0px;
+  color: #555;
+}
+
+.map-total {
+  font-size: 18px;
+  text-align: center;
+  color: #333;
+}
+
+/* New parent container to center the mapstats-container */
+.page-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+/* Center the mapstats-container */
+.mapstats-container {
+  width: 100%;
+  max-width: 1500px; /* Adjust as needed */
+  padding: 2rem;
+  background-color: var(--background-section);
+  border-radius: 10px;
+  box-shadow:
+    0px 4px 8px rgba(0, 0, 0, 0.1),
+    0px -4px 8px rgba(0, 0, 0, 0.1),
+    4px 0px 8px rgba(0, 0, 0, 0.1),
+    -4px 0px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Center items horizontally */
+}
+/* Center the h2 title */
+.mapstats-container h2 {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 20px;
+}
+
+/* Adjust the controls container */
 .controls {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  margin-top: 20px;
+  margin-bottom: 20px;
+  width: 100%;
 }
 
+/* Style individual control elements */
 .dataset-selector,
 .slider-container {
   margin: 10px;
+  display: flex;
+  align-items: center;
 }
 
 .dataset-selector label,
@@ -50,27 +99,45 @@ input[type="range"] {
   margin-left: 10px;
 }
 
+/* Style the SVG map */
+svg {
+  width: 100%;
+  height: auto;
+  max-width: 1600px;
+}
+
+/* Bubble styles */
+.bubble {
+  transition: fill 0.5s, stroke 0.5s, stroke-width 0.5s;
+  cursor: pointer;
+}
+
+/* Optional: Add some hover effects to controls */
+select:hover,
+input[type="range"]:hover {
+  border-color: #888;
+}
+
+/* Adjust margins for better spacing */
+.mapstats-container {
+  margin: 20px auto;
+}
+
+/* Style labels and inputs for better accessibility */
 label {
   font-weight: bold;
 }
 
-.bubble {
-  cursor: pointer;
+
+select:focus,
+input[type="range"]:focus {
+  outline: none;
+  border-color: #007BFF;
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
 }
 
 .region {
   cursor: pointer;
-}
-
-.tooltip {
-  position: absolute;
-  text-align: center;
-  padding: 8px;
-  font-size: 14px;
-  background: rgba(0, 0, 0, 0.8);
-  color: #fff;
-  border-radius: 4px;
-  pointer-events: none;
 }
 
 .legend {

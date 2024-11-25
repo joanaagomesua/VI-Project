@@ -4,7 +4,7 @@ import * as d3 from "d3";
 import BarChart from "../BarChart/BarChart";
 import DonutChart from "../DonutChart/DonutChart";
 
-const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessionsData , revenueData}) => {
+const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessionsData , revenueData, mapVenueData}) => {
   const [selectedMetrics, setSelectedMetrics] = useState({
     spectators: true,
     venues: true,
@@ -327,7 +327,7 @@ const GeneralStats = ({ spectatorsData, spectatorsDataRegions, venuesData ,sessi
                     onChange={() => handleMetricChange("spectators")}
                     className="metric-checkbox"
                   />
-                  Spectators
+                  Spectators(Thousands)
                 </label>
                 <label className="metric-label">
                   <input
